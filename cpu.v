@@ -117,28 +117,7 @@ module cpu(
             ma <= 1'b0;
             jc <= 1'b1;
         end else if (rdy_in) begin
-            case (cnt)
-                5'h00: cnt <= cnt + 1'b1;
-                5'h01: cnt <= cnt + 1'b1;
-                5'h02: cnt <= cnt + 1'b1;
-                5'h03: cnt <= cnt + 1'b1;
-                5'h04: cnt <= cnt + 1'b1;
-                5'h05: cnt <= cnt + 1'b1;
-                5'h06: cnt <= cnt + 1'b1;
-                5'h07: cnt <= cnt + 1'b1;
-                5'h08: cnt <= cnt + 1'b1;
-                5'h09: cnt <= cnt + 1'b1;
-                5'h0a: cnt <= cnt + 1'b1;
-                5'h0b: cnt <= jc ? ma ? 5'h0c : 5'h06 : 5'h00;
-                5'h0c: cnt <= cnt + 1'b1;
-                5'h0d: cnt <= cnt + 1'b1;
-                5'h0e: cnt <= cnt + 1'b1;
-                5'h0f: cnt <= cnt + 1'b1;
-                5'h10: cnt <= cnt + 1'b1;
-                5'h11: cnt <= cnt + 1'b1;
-                5'h12: cnt <= cnt + 1'b1;
-                5'h13: cnt <= 4'h08;
-            endcase
+            cnt <= cnt == 5'h0b ? (jc ? ma ? 5'h0c : 5'h06 : 5'h00) : cnt == 5'h13 ? 5'h08 : cnt + 1'b1;
             IFe <= cnt < 5'h0c || 5'h11 < cnt;
             if (cnt == 5'h05) pc <= pc + 3'h4;
             if (cnt == 5'h0b) pc <= pc + (jc ? 3'h4 : jump - 3'h4);
